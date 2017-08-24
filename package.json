@@ -1,0 +1,25 @@
+{
+  "name": "response-giver",
+  "version": "1.0.0",
+  "description": "A module that, given an error object, returns a response message Edit",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Giovarco/response-given.git"
+  },
+  "keywords": [
+    "json",
+    "response",
+    "message",
+    "error"
+  ],
+  "author": "Mario Mignemi <mario.mignemi@studium.unict.it> (https://www.mariomignemi.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Giovarco/response-given/issues"
+  },
+  "homepage": "https://github.com/Giovarco/response-given#readme"
+}
