@@ -6,6 +6,7 @@
         "target" : "ES5",
         "watch" : true,
         "outDir" : "js-src",
-        "rootDir" : "ts-src"
+        "rootDir" : "ts-src",
+        "allowJs" : true
     }
 }
