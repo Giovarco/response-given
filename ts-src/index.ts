@@ -1,25 +1,47 @@
-/*
-INPUT: JSON = CONFIGURATION TO OBTAIN MESSAGE RESPONSE
-OUTPUT: EMIT EVENTS
-*/
+// Imports and globals
+import {Event} from "typescript.events";
+let eventEmitter = new Event();
 
-// Imports
-/// <reference path='../node_modules/node-json-equal/index.d.ts' />
-import nodeJsonEqual = require("node-json-equal");
-
-// Configuration
-let messages : Object = {}
+// Internal state
+let dictionary : Object = {}
 
 // Public functions
-export function setMessages(_messages : Object) : void {
-    console.log(isEmpty(_messages))
+export function setDictionary(_dictionary : Object) : void {
+    if(!isEmpty(_dictionary) && hasCorrectFormat(_dictionary)) {
+      dictionary = _dictionary;
+      console.log("OK");
+    } else {
+      eventEmitter.emit("error", new Error("The input dictionary cannot be an empty JSON"));
+      console.log("ERROR")
+    }
+}
+
+export function getMessage() {
+  
 }
 
 // Private functions
-function isEmpty(_messages : Object) : boolean {
-    const options : Object = {arrayOrder : false};
-    console.log(nodeJsonEqual.equal(_messages, {}, options));
-    return nodeJsonEqual.equal(_messages, {}, options);
+function isEmpty(obj : Object) : boolean {
+
+    for (let key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        return false;
+      }
+    }
+
+    return true;
+
 }
 
-setMessages({});
+function hasCorrectFormat(_dictionary : Object) : boolean {
+  return true;
+}
+
+const input = {
+  "Unable to connect to database" : {
+    "statusCode" : 500,
+    "message" : "Internal Server Error"
+  }
+}
+
+setDictionary(input);

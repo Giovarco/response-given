@@ -26,7 +26,6 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@types/node": "^8.0.25",
-    "node-json-equal": "^0.1.0"
+    "typescript.events": "^6.0.0"
   }
 }

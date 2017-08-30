@@ -1,23 +1,41 @@
 "use strict";
-/*
-INPUT: JSON = CONFIGURATION TO OBTAIN MESSAGE RESPONSE
-OUTPUT: EMIT EVENTS
-*/
 Object.defineProperty(exports, "__esModule", { value: true });
-// Imports
-/// <reference path='../node_modules/node-json-equal/index.d.ts' />
-var nodeJsonEqual = require("node-json-equal");
-// Configuration
-var messages = {};
+// Imports and globals
+var typescript_events_1 = require("typescript.events");
+var eventEmitter = new typescript_events_1.Event();
+// Internal state
+var dictionary = {};
 // Public functions
-function setMessages(_messages) {
-    console.log(isEmpty(_messages));
+function setDictionary(_dictionary) {
+    if (!isEmpty(_dictionary) && hasCorrectFormat(_dictionary)) {
+        dictionary = _dictionary;
+        console.log("OK");
+    }
+    else {
+        eventEmitter.emit("error", new Error("The input dictionary cannot be an empty JSON"));
+        console.log("ERROR");
+    }
 }
-exports.setMessages = setMessages;
+exports.setDictionary = setDictionary;
+function getMessage() {
+}
+exports.getMessage = getMessage;
 // Private functions
-function isEmpty(_messages) {
-    var options = { arrayOrder: false };
-    console.log(nodeJsonEqual.equal(_messages, {}, options));
-    return nodeJsonEqual.equal(_messages, {}, options);
+function isEmpty(obj) {
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            return false;
+        }
+    }
+    return true;
 }
-setMessages({});
+function hasCorrectFormat(_dictionary) {
+    return true;
+}
+var input = {
+    "Unable to connect to database": {
+        "statusCode": 500,
+        "message": "Internal Server Error"
+    }
+};
+setDictionary(input);
