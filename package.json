@@ -26,6 +26,8 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "typescript.events": "^6.0.0"
+    "@types/winston": "^2.3.5",
+    "typescript.events": "^6.0.0",
+    "winston": "^2.3.1"
   }
 }
