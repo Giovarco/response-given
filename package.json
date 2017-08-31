@@ -22,9 +22,6 @@
     "url": "https://github.com/Giovarco/response-given/issues"
   },
   "homepage": "https://github.com/Giovarco/response-given#readme",
-  "devDependencies": {
-    "typescript": "^2.4.2"
-  },
   "dependencies": {
     "@types/winston": "^2.3.5",
     "typescript.events": "^6.0.0",

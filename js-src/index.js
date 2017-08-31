@@ -15,7 +15,10 @@ logger.level = 'error';
 var dictionary = undefined;
 // Public functions
 function setDictionary(_dictionary) {
-    if (!isEmpty(_dictionary) && hasCorrectFormat(_dictionary)) {
+    // Log
+    logger.info("Trying to set the dictionary");
+    // Validate the input
+    if (!isEmpty(_dictionary)) {
         dictionary = _dictionary;
         logger.info("Dictionary set correctly");
     }
@@ -63,9 +66,6 @@ function isEmpty(obj) {
             return false;
         }
     }
-    return true;
-}
-function hasCorrectFormat(_dictionary) {
     return true;
 }
 function emitError(error) {

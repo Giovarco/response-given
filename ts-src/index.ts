@@ -17,12 +17,17 @@ let dictionary : object = undefined;
 
 // Public functions
 export function setDictionary(_dictionary : object) : void {
-    if(!isEmpty(_dictionary) && hasCorrectFormat(_dictionary)) {
-      dictionary = _dictionary;
-      logger.info("Dictionary set correctly");
-    } else {
-      emitError("The input dictionary cannot be an empty JSON");
-    }
+
+  // Log
+  logger.info("Trying to set the dictionary");
+
+  // Validate the input
+  if(!isEmpty(_dictionary)) {
+    dictionary = _dictionary;
+    logger.info("Dictionary set correctly");
+  } else {
+    emitError("The input dictionary cannot be an empty JSON");
+  }
 }
 
 export function getMessage(error : string) : any {
@@ -75,10 +80,6 @@ function isEmpty(obj : object) : boolean {
 
     return true;
 
-}
-
-function hasCorrectFormat(_dictionary : object) : boolean {
-  return true;
 }
 
 function emitError(error : string) : void {
