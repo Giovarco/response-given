@@ -103,6 +103,6 @@ const input = {
   }
 }
 
-setDictionary(input);
 setLoggerLevel("silly");
+setDictionary(input);
 getMessage("Unable to connect to database");

@@ -86,6 +86,6 @@ var input = {
         "message": "Internal Server Error"
     }
 };
-setDictionary(input);
 setLoggerLevel("silly");
+setDictionary(input);
 getMessage("Unable to connect to database");
