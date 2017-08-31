@@ -16,11 +16,11 @@ var dictionary = undefined;
 // Public functions
 function setDictionary(_dictionary) {
     // Log
-    logger.info("Trying to set the dictionary");
+    logger.verbose("Trying to set the dictionary");
     // Validate the input
     if (!isEmpty(_dictionary)) {
         dictionary = _dictionary;
-        logger.info("Dictionary set correctly");
+        logger.verbose("Dictionary set correctly");
     }
     else {
         emitError("The input dictionary cannot be an empty JSON");
@@ -28,14 +28,14 @@ function setDictionary(_dictionary) {
 }
 exports.setDictionary = setDictionary;
 function getMessage(error) {
+    // Log
+    logger.debug("Looking for the value of '" + error + "'");
     // Check if the dictionary is set
     if (isDictionaryDefined()) {
-        // Log
-        logger.debug("Looking for the value of '" + error + "'");
         // Look for a correspondence
         for (var key in dictionary) {
             if (key === error) {
-                logger.info("The value of '" + key + "' is '" + JSON.stringify(dictionary[key], null, 2) + "'");
+                logger.verbose("The value of '" + key + "' is '" + JSON.stringify(dictionary[key], null, 2) + "'");
                 return dictionary[key];
             }
         }
@@ -79,13 +79,3 @@ function isInArray(value, array) {
     logger.debug("Checking if '" + value + "' is contained in [" + array + "]");
     return array.indexOf(value) > -1;
 }
-// Main
-var input = {
-    "Unable to connect to database": {
-        "statusCode": 500,
-        "message": "Internal Server Error"
-    }
-};
-setLoggerLevel("silly");
-setDictionary(input);
-getMessage("Unable to connect to database");
