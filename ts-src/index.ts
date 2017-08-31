@@ -9,7 +9,7 @@ const logger = new (winston.Logger)({
     new (winston.transports.Console)({ colorize: true })
   ]
 });
-logger.level = 'silly';
+logger.level = 'error';
 
 
 // Internal state
@@ -35,7 +35,6 @@ export function getMessage(error : string) : any {
     
     // Look for a correspondence
     for (let key in dictionary) {
-      logger.silly("key = "+key);
       if(key === error) {
         logger.info("The value of '"+key+"' is '"+JSON.stringify(dictionary[key], null, 2)+"'");
         return dictionary[key];
@@ -50,6 +49,18 @@ export function getMessage(error : string) : any {
     emitError("The dictionary is not set");    
   }
 
+
+}
+
+export function setLoggerLevel(level : string) : void {
+
+  // Check if it is a valid level
+  const levels : string[] = ["none", "error", "warn", "info", "verbose", "debug", "silly"];
+  if(isInArray(level, levels)) {
+    logger.level = level;
+  } else {
+    emitError("Invalid level. It has to be one of these values: "+levels+";");
+  }
 
 }
 
@@ -79,6 +90,11 @@ function isDictionaryDefined() : boolean {
   return (dictionary !== undefined)
 }
 
+function isInArray(value : string, array : string[]) : boolean {
+  logger.debug("Checking if '"+value+"' is contained in ["+array+"]");
+  return array.indexOf(value) > -1;
+}
+
 // Main
 const input = {
   "Unable to connect to database" : {
@@ -88,4 +104,5 @@ const input = {
 }
 
 setDictionary(input);
+setLoggerLevel("silly");
 getMessage("Unable to connect to database");

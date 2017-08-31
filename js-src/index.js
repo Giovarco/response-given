@@ -10,7 +10,7 @@ var logger = new (winston.Logger)({
         new (winston.transports.Console)({ colorize: true })
     ]
 });
-logger.level = 'silly';
+logger.level = 'error';
 // Internal state
 var dictionary = undefined;
 // Public functions
@@ -31,7 +31,6 @@ function getMessage(error) {
         logger.debug("Looking for the value of '" + error + "'");
         // Look for a correspondence
         for (var key in dictionary) {
-            logger.silly("key = " + key);
             if (key === error) {
                 logger.info("The value of '" + key + "' is '" + JSON.stringify(dictionary[key], null, 2) + "'");
                 return dictionary[key];
@@ -46,6 +45,17 @@ function getMessage(error) {
     }
 }
 exports.getMessage = getMessage;
+function setLoggerLevel(level) {
+    // Check if it is a valid level
+    var levels = ["none", "error", "warn", "info", "verbose", "debug", "silly"];
+    if (isInArray(level, levels)) {
+        logger.level = level;
+    }
+    else {
+        emitError("Invalid level. It has to be one of these values: " + levels + ";");
+    }
+}
+exports.setLoggerLevel = setLoggerLevel;
 // Private functions
 function isEmpty(obj) {
     for (var key in obj) {
@@ -65,6 +75,10 @@ function emitError(error) {
 function isDictionaryDefined() {
     return (dictionary !== undefined);
 }
+function isInArray(value, array) {
+    logger.debug("Checking if '" + value + "' is contained in [" + array + "]");
+    return array.indexOf(value) > -1;
+}
 // Main
 var input = {
     "Unable to connect to database": {
@@ -73,4 +87,5 @@ var input = {
     }
 };
 setDictionary(input);
+setLoggerLevel("silly");
 getMessage("Unable to connect to database");
