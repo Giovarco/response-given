@@ -11,6 +11,15 @@ const logger = new (winston.Logger)({
 });
 logger.level = 'error';
 
+export let _unitTesting : object = {
+  setDictionary : setDictionary,
+  getMessage : getMessage,
+  setLoggerLevel : setLoggerLevel,
+  isEmpty : isEmpty,
+  emitError : emitError,
+  isDictionaryDefined : isDictionaryDefined,
+  isInArray : isInArray
+};
 
 // Internal state
 let dictionary : object = undefined;
