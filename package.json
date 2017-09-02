@@ -22,7 +22,15 @@
     "url": "https://github.com/Giovarco/response-given/issues"
   },
   "homepage": "https://github.com/Giovarco/response-given#readme",
+  "dependencies": {
+    "@types/winston": "^2.3.5",
+    "typescript.events": "^6.0.0",
+    "winston": "^2.3.1"
+  },
   "devDependencies": {
-    "typescript": "^2.4.2"
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.42",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
   }
 }
