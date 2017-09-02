@@ -11,15 +11,6 @@ var logger = new (winston.Logger)({
     ]
 });
 logger.level = 'error';
-exports._unitTesting = {
-    setDictionary: setDictionary,
-    getMessage: getMessage,
-    setLoggerLevel: setLoggerLevel,
-    isEmpty: isEmpty,
-    emitError: emitError,
-    isDictionaryDefined: isDictionaryDefined,
-    isInArray: isInArray
-};
 // Internal state
 var dictionary = undefined;
 // Public functions
@@ -68,6 +59,10 @@ function setLoggerLevel(level) {
     }
 }
 exports.setLoggerLevel = setLoggerLevel;
+function on(event, handler) {
+    eventEmitter.on(event, handler);
+}
+exports.on = on;
 // Private functions
 function isEmpty(obj) {
     for (var key in obj) {

@@ -1,5 +1,5 @@
 // Imports and globals
-import {Event} from "typescript.events";
+import {Event, IListener} from "typescript.events";
 let eventEmitter = new Event();
 
 import * as winston from 'winston';
@@ -10,16 +10,6 @@ const logger = new (winston.Logger)({
   ]
 });
 logger.level = 'error';
-
-export let _unitTesting : object = {
-  setDictionary : setDictionary,
-  getMessage : getMessage,
-  setLoggerLevel : setLoggerLevel,
-  isEmpty : isEmpty,
-  emitError : emitError,
-  isDictionaryDefined : isDictionaryDefined,
-  isInArray : isInArray
-};
 
 // Internal state
 let dictionary : object = undefined;
@@ -76,6 +66,10 @@ export function setLoggerLevel(level : string) : void {
     emitError("Invalid level. It has to be one of these values: "+levels+";");
   }
 
+}
+
+export function on(event : string, handler : IListener) {
+  eventEmitter.on(event, handler);
 }
 
 // Private functions
