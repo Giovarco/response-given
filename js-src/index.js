@@ -63,6 +63,10 @@ function on(event, handler) {
     eventEmitter.on(event, handler);
 }
 exports.on = on;
+function removeListener(event, handler) {
+    eventEmitter.removeListener(event, handler);
+}
+exports.removeListener = removeListener;
 // Private functions
 function isEmpty(obj) {
     for (var key in obj) {

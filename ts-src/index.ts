@@ -72,6 +72,10 @@ export function on(event : string, handler : IListener) {
   eventEmitter.on(event, handler);
 }
 
+export function removeListener(event : string, handler : IListener) {
+  eventEmitter.removeListener(event, handler);
+}
+
 // Private functions
 function isEmpty(obj : object) : boolean {
 
