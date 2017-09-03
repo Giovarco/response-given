@@ -2,7 +2,7 @@
   "name": "response-giver",
   "version": "1.0.0",
   "description": "A module that, given an error object, returns a response message Edit",
-  "main": "src/index.js",
+  "main": "js-src/index.js",
   "scripts": {
     "test": "mocha js-src/test"
   },

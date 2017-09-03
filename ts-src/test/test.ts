@@ -9,19 +9,33 @@ import * as assert from "assert"
 // SET LOGGER
 
 describe('Public functions', () => {
+
   describe('getMessage(error : string) : any', () => {
 
+    // Do not log
     responseGiver.setLoggerLevel("none");
 
+    // 1
     it('should throw when the dictionary is not set', (done) => {
 
       responseGiver.on('error',function(){
-        console.log("PRESO!")
         done();
       });
     
       responseGiver.getMessage("A");
 
     });
+
+    // 2
+    it('should throw when the dictionary is set, but there is not the key we are looking for', (done) => {
+      
+      /*responseGiver.on('error',function(){
+        done();
+      });
+    
+      responseGiver.getMessage("A");*/
+
+    });
+
   });
 });
