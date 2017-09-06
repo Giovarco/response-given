@@ -21,60 +21,42 @@ describe('Public functions', () => {
       console.log("BBBBB");
     });
 
-    /*
-    it("is really hacky, but should work", async function() {
-      const x = getSomeEventEmitter()
-      const potentialFailure = new Promise(function(resolve, reject) {
-        x.on("error", reject)
-      })
-      await x.doWhatever()
-      return potentialFailure
-    })
-    */
-
     // 1
-    it('should throw when the dictionary is not set', async () => {
+    it('should throw when the dictionary is not set', (done) => {
 
-      const handler : IListener = async function(e){
-        await console.log("CCCCC")
-        await responseGiver.removeListener("error", handler);
-      };
+      const handler : IListener = function(error) {
+        console.log("CCCCC")
+        responseGiver.removeListener(handler);
+        done()
+      }
 
-      const potentialFailure = new Promise(async function(resolve, reject) {
-        await responseGiver.on('error', async function(e){
-
-          await console.log("CCCCC")
-          await responseGiver.removeListener("error", handler);
-          resolve();
-
-        });
-      })
-    
-      await responseGiver.getMessage("A");
-
-      return potentialFailure;
+      responseGiver.on("error", handler)
+      console.log(1);
+      responseGiver.getMessage("A");
+      console.log(2);
 
     });
 
     // 2
-    /*
-    it('should throw when the dictionary is set, but there is not the key we are looking for', async () => {
+    it('should throw when the dictionary is set, but there is not the key we are looking for', (done) => {
       
-      const handler : IListener = async function(e){
-        await console.log("DDDDD")
-        await responseGiver.removeListener("error", handler);
-      };
+      const handler = function(error) {
+        console.log("DDDDD")
+        responseGiver.removeListener(handler);
+        done()
+      }
 
-      const potentialFailure = new Promise(function(resolve, reject) {
-        responseGiver.on('error', handler);
-      })
+      responseGiver.on("error", handler)
+      console.log(3);
 
-      await responseGiver.setDictionary( { "A" : "B" } )
-      await responseGiver.getMessage("C");
+      responseGiver.setDictionary({"key" : "value"})
+      console.log(4);
 
-      return potentialFailure;
+      responseGiver.getMessage("inexistantKey");
+      console.log(5);
+
+
     });
-  */
 
   });
 });
