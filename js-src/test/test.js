@@ -34,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 require("mocha");
 // SET MESSAGES
@@ -43,52 +44,94 @@ describe('Public functions', function () {
     describe('getMessage(error : string) : any', function () {
         var responseGiver;
         beforeEach(function () {
+            console.log("AAAAA");
             responseGiver = require("../index");
             responseGiver.setLoggerLevel("none");
+            console.log("BBBBB");
         });
+        /*
+        it("is really hacky, but should work", async function() {
+          const x = getSomeEventEmitter()
+          const potentialFailure = new Promise(function(resolve, reject) {
+            x.on("error", reject)
+          })
+          await x.doWhatever()
+          return potentialFailure
+        })
+        */
         // 1
-        it('should throw when the dictionary is not set', function (done) {
-            var handler = function (e) {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, console.log("CCCCCCCCCCCCCCCCC")];
-                            case 1:
-                                _a.sent();
-                                return [4 /*yield*/, responseGiver.removeListener("error", handler)];
-                            case 2:
-                                _a.sent();
-                                return [4 /*yield*/, done()];
-                            case 3:
-                                _a.sent();
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            };
-            responseGiver.on('error', handler);
-            responseGiver.getMessage("A");
-        });
+        it('should throw when the dictionary is not set', function () { return __awaiter(_this, void 0, void 0, function () {
+            var handler, potentialFailure;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        handler = function (e) {
+                            return __awaiter(this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, console.log("CCCCC")];
+                                        case 1:
+                                            _a.sent();
+                                            return [4 /*yield*/, responseGiver.removeListener("error", handler)];
+                                        case 2:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            });
+                        };
+                        potentialFailure = new Promise(function (resolve, reject) {
+                            return __awaiter(this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, responseGiver.on('error', function (e) {
+                                                return __awaiter(this, void 0, void 0, function () {
+                                                    return __generator(this, function (_a) {
+                                                        switch (_a.label) {
+                                                            case 0: return [4 /*yield*/, console.log("CCCCC")];
+                                                            case 1:
+                                                                _a.sent();
+                                                                return [4 /*yield*/, responseGiver.removeListener("error", handler)];
+                                                            case 2:
+                                                                _a.sent();
+                                                                resolve();
+                                                                return [2 /*return*/];
+                                                        }
+                                                    });
+                                                });
+                                            })];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            });
+                        });
+                        return [4 /*yield*/, responseGiver.getMessage("A")];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, potentialFailure];
+                }
+            });
+        }); });
         // 2
-        it('should throw when the dictionary is set, but there is not the key we are looking for', function (done) {
-            var handler = function (e) {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, responseGiver.removeListener("error", handler)];
-                            case 1:
-                                _a.sent();
-                                return [4 /*yield*/, done()];
-                            case 2:
-                                _a.sent();
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            };
+        /*
+        it('should throw when the dictionary is set, but there is not the key we are looking for', async () => {
+          
+          const handler : IListener = async function(e){
+            await console.log("DDDDD")
+            await responseGiver.removeListener("error", handler);
+          };
+    
+          const potentialFailure = new Promise(function(resolve, reject) {
             responseGiver.on('error', handler);
-            responseGiver.setDictionary({ "A": "B" });
-            responseGiver.getMessage("C");
+          })
+    
+          await responseGiver.setDictionary( { "A" : "B" } )
+          await responseGiver.getMessage("C");
+    
+          return potentialFailure;
         });
+      */
     });
 });
