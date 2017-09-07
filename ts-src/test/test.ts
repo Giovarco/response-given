@@ -35,7 +35,7 @@ describe('Public functions', () => {
       responseGiver.on("error", handler)
 
       // Cause a throw
-      responseGiver.getMessage("A");
+      responseGiver.getMessage("inexistantKey");
 
 
     });
@@ -52,6 +52,28 @@ describe('Public functions', () => {
       // Cause a throw
       responseGiver.setDictionary({"key" : "value"})
       responseGiver.getMessage("inexistantKey");
+
+    });
+
+    // 3
+    it('should work when the dictionary is set and we are looking for an existing key', (done) => {
+      
+      // If an error is thrown, then the test passes
+      const handler = function(error) {
+        done(error);
+      }
+      responseGiver.on("error", handler)
+
+      // Cause a throw
+      responseGiver.setDictionary({"key" : "value"})
+      const result = responseGiver.getMessage("key");
+
+      // Check the result
+      if(result === "value") {
+        done();
+      } else {
+        done(new Error("Unexpected result from getMessage()"));
+      }
 
     });
 

@@ -22,7 +22,7 @@ describe('Public functions', function () {
             };
             responseGiver.on("error", handler);
             // Cause a throw
-            responseGiver.getMessage("A");
+            responseGiver.getMessage("inexistantKey");
         });
         // 2
         it('should throw when the dictionary is set, but there is not the key we are looking for', function (done) {
@@ -34,6 +34,24 @@ describe('Public functions', function () {
             // Cause a throw
             responseGiver.setDictionary({ "key": "value" });
             responseGiver.getMessage("inexistantKey");
+        });
+        // 3
+        it('should work when the dictionary is set and we are looking for an existing key', function (done) {
+            // If an error is thrown, then the test passes
+            var handler = function (error) {
+                done(error);
+            };
+            responseGiver.on("error", handler);
+            // Cause a throw
+            responseGiver.setDictionary({ "key": "value" });
+            var result = responseGiver.getMessage("key");
+            // Check the result
+            if (result === "value") {
+                done();
+            }
+            else {
+                done(new Error("Unexpected result from getMessage()"));
+            }
         });
     });
 });
