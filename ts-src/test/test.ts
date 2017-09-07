@@ -15,46 +15,43 @@ describe('Public functions', () => {
     let responseGiver;
 
     beforeEach(function() {
-      console.log("AAAAA");
+
+      // Require a fresh version of the module
+      delete require.cache[require.resolve('../index')]
       responseGiver = require("../index");
+
+      // Do not log
       responseGiver.setLoggerLevel("none");
-      console.log("BBBBB");
+
     });
 
     // 1
     it('should throw when the dictionary is not set', (done) => {
 
+      // If an error is thrown, then the test passes
       const handler : IListener = function(error) {
-        console.log("CCCCC")
-        responseGiver.removeListener(handler);
         done()
       }
-
       responseGiver.on("error", handler)
-      console.log(1);
+
+      // Cause a throw
       responseGiver.getMessage("A");
-      console.log(2);
+
 
     });
 
     // 2
     it('should throw when the dictionary is set, but there is not the key we are looking for', (done) => {
       
+      // If an error is thrown, then the test passes
       const handler = function(error) {
-        console.log("DDDDD")
-        responseGiver.removeListener(handler);
         done()
       }
-
       responseGiver.on("error", handler)
-      console.log(3);
 
+      // Cause a throw
       responseGiver.setDictionary({"key" : "value"})
-      console.log(4);
-
       responseGiver.getMessage("inexistantKey");
-      console.log(5);
-
 
     });
 
