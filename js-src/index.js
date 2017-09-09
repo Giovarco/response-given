@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // Imports and globals
-var typescript_events_1 = require("typescript.events");
-var eventEmitter = new typescript_events_1.Event();
+var events = require("events");
+var eventEmitter = new events.EventEmitter();
 var winston = require("winston");
 var logger = new (winston.Logger)({
     transports: [
@@ -20,7 +20,7 @@ function setDictionary(_dictionary) {
     // Validate the input
     if (!isEmpty(_dictionary)) {
         dictionary = _dictionary;
-        emitEvent("Dictionary set correctly");
+        emitEvent("dictionarySet");
         logger.verbose("Dictionary set correctly");
     }
     else {
@@ -37,13 +37,12 @@ function getMessage(error) {
         for (var key in dictionary) {
             if (key === error) {
                 logger.verbose("The value of '" + key + "' is '" + JSON.stringify(dictionary[key], null, 2) + "'");
-                console.log("A");
-                emitEvent("dictionarySet");
+                emitEvent("correspondenceFound");
                 return dictionary[key];
             }
         }
         // Emit an error if the key is not found
-        emitError("There is no key on the dictionary with the following error: " + error);
+        emitError("There is no key on the dictionary with the following name: " + error);
         return null;
     }
     else {
@@ -72,8 +71,8 @@ function removeListener(event, handler) {
 exports.removeListener = removeListener;
 // Private functions
 function emitEvent(event) {
-    console.log("EMITTING : " + event);
-    console.log(eventEmitter.emit(event));
+    //console.log("emitEvent -> "+event);
+    eventEmitter.emit(event);
 }
 function isEmpty(obj) {
     for (var key in obj) {
@@ -83,9 +82,9 @@ function isEmpty(obj) {
     }
     return true;
 }
-function emitError(error) {
-    eventEmitter.emit("error", new Error(error));
-    logger.error(error);
+function emitError(errorMessage) {
+    eventEmitter.emit("error", new Error(errorMessage));
+    logger.error(errorMessage);
 }
 function isDictionaryDefined() {
     return (dictionary !== undefined);

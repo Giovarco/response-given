@@ -14,21 +14,6 @@ describe('Public functions', function () {
         // Do not log
         responseGiver.setLoggerLevel("none");
     });
-    /*
-  export function setDictionary(_dictionary : object) : void {
-
-    // Log
-    logger.verbose("Trying to set the dictionary");
-
-    // Validate the input
-    if(!isEmpty(_dictionary)) {
-      dictionary = _dictionary;
-      logger.verbose("Dictionary set correctly");
-    } else {
-      emitError("The input dictionary cannot be an empty JSON");
-    }
-  }
-  */
     describe("setDictionary(_dictionary : object) : void", function () {
         // 1
         it('should throw when we try to set an empty dictionary', function (done) {
@@ -38,40 +23,35 @@ describe('Public functions', function () {
             };
             responseGiver.on("error", handler);
             // Cause a throw
-            responseGiver.setDictionary();
+            responseGiver.setDictionary({});
         });
         // 2
-        /*it('should throw when we try to set an empty dictionary', (done) => {
-          
-          // If an error is thrown, then the test passes
-          const handler : IListener = function(error) {
-            done()
-          }
-          responseGiver.on("error", handler)
-    
-          // Cause a throw
-          responseGiver.setDictionary();
-    
-    
-        });*/
+        it('should work when we try to set a valid dictionary', function (done) {
+            // If an error is thrown, then the test passes
+            var errorHandler = function (error) {
+                done(error);
+            };
+            responseGiver.on("error", errorHandler);
+            // If a good event is emitted, then the test is passed
+            var goodHandler = function () {
+                done();
+            };
+            responseGiver.on("dictionarySet", goodHandler);
+            // It should not throw
+            responseGiver.setDictionary({ "key": "value" });
+        });
     });
     describe('getMessage(error : string) : any', function () {
         // 1
-        /*
-        it('should throw when the dictionary is not set', (done) => {
-    
-          // If an error is thrown, then the test passes
-          const handler : IListener = function(error) {
-            done()
-          }
-          responseGiver.on("error", handler)
-    
-          // Cause a throw
-          responseGiver.getMessage("inexistantKey");
-    
-    
+        it('should throw when the dictionary is not set', function (done) {
+            // If an error is thrown, then the test passes
+            var handler = function (error) {
+                done();
+            };
+            responseGiver.on("error", handler);
+            // Cause a throw
+            responseGiver.getMessage("inexistantKey");
         });
-        */
         // 2
         it('should throw when the dictionary is set, but there is not the key we are looking for', function (done) {
             // If an error is thrown, then the test passes
@@ -91,24 +71,21 @@ describe('Public functions', function () {
             };
             responseGiver.on("error", errorHandler);
             // If a good event is emitted, then the test is passed
-            var dictionarySet = false;
+            var correspondence = false;
             var goodHandler = function () {
-                console.log("dictionarySet = true;");
-                dictionarySet = true;
+                correspondence = true;
             };
-            responseGiver.on("dictionarySet", goodHandler);
-            // Cause a throw
+            responseGiver.on("correspondenceFound", goodHandler);
+            // It should not throw
             responseGiver.setDictionary({ "key": "value" });
-            console.log(1);
             var result = responseGiver.getMessage("key");
-            console.log(2);
             // Check the result
             if (result === "value") {
-                if (dictionarySet) {
+                if (correspondence) {
                     done();
                 }
                 else {
-                    done(new Error("Expected to emit event 'dictionarySet'"));
+                    done(new Error("Expected 'correspondenceFound' event"));
                 }
             }
             else {

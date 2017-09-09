@@ -1,6 +1,6 @@
 // Imports and globals
-import {Event, IListener} from "typescript.events";
-let eventEmitter = new Event();
+import events = require('events');
+const eventEmitter = new events.EventEmitter();
 
 import * as winston from 'winston';
 const logger = new (winston.Logger)({
@@ -23,7 +23,7 @@ export function setDictionary(_dictionary : object) : void {
   // Validate the input
   if(!isEmpty(_dictionary)) {
     dictionary = _dictionary;
-    emitEvent("Dictionary set correctly");
+    emitEvent("dictionarySet");
     logger.verbose("Dictionary set correctly");
   } else {
     emitError("The input dictionary cannot be an empty JSON");
@@ -42,14 +42,13 @@ export function getMessage(error : string) : any {
     for (let key in dictionary) {
       if(key === error) {
         logger.verbose("The value of '"+key+"' is '"+JSON.stringify(dictionary[key], null, 2)+"'");
-        console.log("A")
-        emitEvent("dictionarySet");
+        emitEvent("correspondenceFound");
         return dictionary[key];
       }
     }
   
     // Emit an error if the key is not found
-    emitError("There is no key on the dictionary with the following error: "+error);
+    emitError("There is no key on the dictionary with the following name: "+error);
     return null;
 
   } else {
@@ -71,18 +70,18 @@ export function setLoggerLevel(level : string) : void {
 
 }
 
-export function on(event : string, handler : IListener) {
+export function on(event : string, handler : any) {
   eventEmitter.on(event, handler);
 }
 
-export function removeListener(event : string, handler : IListener) {
+export function removeListener(event : string, handler : any) {
   eventEmitter.removeListener(event, handler);
 }
 
 // Private functions
 function emitEvent(event : string) : void {
-  console.log("EMITTING : "+event)
-  console.log(eventEmitter.emit(event));
+  //console.log("emitEvent -> "+event);
+  eventEmitter.emit(event);
 }
 
 function isEmpty(obj : object) : boolean {
@@ -97,9 +96,9 @@ function isEmpty(obj : object) : boolean {
 
 }
 
-function emitError(error : string) : void {
-  eventEmitter.emit("error", new Error(error));
-  logger.error(error);
+function emitError(errorMessage : string) : void {
+  eventEmitter.emit("error", new Error(errorMessage));
+  logger.error(errorMessage);
 }
 
 function isDictionaryDefined() : boolean {
