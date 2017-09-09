@@ -20,6 +20,7 @@ function setDictionary(_dictionary) {
     // Validate the input
     if (!isEmpty(_dictionary)) {
         dictionary = _dictionary;
+        emitEvent("Dictionary set correctly");
         logger.verbose("Dictionary set correctly");
     }
     else {
@@ -36,6 +37,8 @@ function getMessage(error) {
         for (var key in dictionary) {
             if (key === error) {
                 logger.verbose("The value of '" + key + "' is '" + JSON.stringify(dictionary[key], null, 2) + "'");
+                console.log("A");
+                emitEvent("dictionarySet");
                 return dictionary[key];
             }
         }
@@ -44,7 +47,7 @@ function getMessage(error) {
         return null;
     }
     else {
-        emitError("The dictionary is not set");
+        emitError("The dictionary cannot be empty");
     }
 }
 exports.getMessage = getMessage;
@@ -68,6 +71,10 @@ function removeListener(event, handler) {
 }
 exports.removeListener = removeListener;
 // Private functions
+function emitEvent(event) {
+    console.log("EMITTING : " + event);
+    console.log(eventEmitter.emit(event));
+}
 function isEmpty(obj) {
     for (var key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {

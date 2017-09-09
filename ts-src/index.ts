@@ -23,6 +23,7 @@ export function setDictionary(_dictionary : object) : void {
   // Validate the input
   if(!isEmpty(_dictionary)) {
     dictionary = _dictionary;
+    emitEvent("Dictionary set correctly");
     logger.verbose("Dictionary set correctly");
   } else {
     emitError("The input dictionary cannot be an empty JSON");
@@ -31,8 +32,8 @@ export function setDictionary(_dictionary : object) : void {
 
 export function getMessage(error : string) : any {
 
-    // Log
-    logger.debug("Looking for the value of '"+error+"'");
+  // Log
+  logger.debug("Looking for the value of '"+error+"'");
 
   // Check if the dictionary is set
   if(isDictionaryDefined()) {
@@ -41,6 +42,8 @@ export function getMessage(error : string) : any {
     for (let key in dictionary) {
       if(key === error) {
         logger.verbose("The value of '"+key+"' is '"+JSON.stringify(dictionary[key], null, 2)+"'");
+        console.log("A")
+        emitEvent("dictionarySet");
         return dictionary[key];
       }
     }
@@ -50,7 +53,7 @@ export function getMessage(error : string) : any {
     return null;
 
   } else {
-    emitError("The dictionary is not set");    
+    emitError("The dictionary cannot be empty");
   }
 
 
@@ -77,6 +80,11 @@ export function removeListener(event : string, handler : IListener) {
 }
 
 // Private functions
+function emitEvent(event : string) : void {
+  console.log("EMITTING : "+event)
+  console.log(eventEmitter.emit(event));
+}
+
 function isEmpty(obj : object) : boolean {
 
     for (let key in obj) {
