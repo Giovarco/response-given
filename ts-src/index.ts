@@ -64,6 +64,7 @@ export function setLoggerLevel(level : string) : void {
   const levels : string[] = ["none", "error", "warn", "info", "verbose", "debug", "silly"];
   if(isInArray(level, levels)) {
     logger.level = level;
+    emitEvent("loggerLevelSet");
   } else {
     emitError("Invalid level. It has to be one of these values: "+levels+";");
   }

@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("mocha");
 var responseGiver;
-// SET MESSAGES
-// SET  DICTIONARY
-// SET LOGGER
 describe('Public functions', function () {
     // Before each test
     beforeEach(function () {
@@ -14,7 +11,7 @@ describe('Public functions', function () {
         // Do not log
         responseGiver.setLoggerLevel("none");
     });
-    describe("setDictionary(_dictionary : object) : void", function () {
+    describe("A function that allows to set the internal dictionary", function () {
         // 1
         it('should throw when we try to set an empty dictionary', function (done) {
             // If an error is thrown, then the test passes
@@ -26,7 +23,7 @@ describe('Public functions', function () {
             responseGiver.setDictionary({});
         });
         // 2
-        it('should work when we try to set a valid dictionary', function (done) {
+        it('should not throw when we try to set a valid dictionary', function (done) {
             // If an error is thrown, then the test passes
             var errorHandler = function (error) {
                 done(error);
@@ -41,9 +38,9 @@ describe('Public functions', function () {
             responseGiver.setDictionary({ "key": "value" });
         });
     });
-    describe('getMessage(error : string) : any', function () {
+    describe('A function that allows to get a message from an error message', function () {
         // 1
-        it('should throw when the dictionary is not set', function (done) {
+        it('should throw when we try to get a message, but the dictionary is not set', function (done) {
             // If an error is thrown, then the test passes
             var handler = function (error) {
                 done();
@@ -53,7 +50,7 @@ describe('Public functions', function () {
             responseGiver.getMessage("inexistantKey");
         });
         // 2
-        it('should throw when the dictionary is set, but there is not the key we are looking for', function (done) {
+        it('should throw when we try to get a message, the dictionary is set, but there is no correspondence for the error we are looking for', function (done) {
             // If an error is thrown, then the test passes
             var handler = function (error) {
                 done();
@@ -64,7 +61,7 @@ describe('Public functions', function () {
             responseGiver.getMessage("inexistantKey");
         });
         // 3
-        it('should work when the dictionary is set and we are looking for an existing key', function (done) {
+        it('should not throw when we try to get a message, the dictionary is set and the error key exists in the dictionary', function (done) {
             // If an error is thrown, then the test passes
             var errorHandler = function (error) {
                 done(error);
@@ -91,6 +88,33 @@ describe('Public functions', function () {
             else {
                 done(new Error("Unexpected result from getMessage()"));
             }
+        });
+    });
+    describe("A function that allows to set the internal logger level", function () {
+        // 1
+        it("should throw when we try to set an invalid level", function (done) {
+            // If an error is thrown, then the test passes
+            var handler = function (error) {
+                done();
+            };
+            responseGiver.on("error", handler);
+            // Cause a throw
+            responseGiver.setLoggerLevel("invalidLevel");
+        });
+        // 2
+        it('should not throw when we try to set a valid level', function (done) {
+            // If an error is thrown, then the test passes
+            var errorHandler = function (error) {
+                done(error);
+            };
+            responseGiver.on("error", errorHandler);
+            // If a good event is emitted, then the test is passed
+            var goodHandler = function () {
+                done();
+            };
+            responseGiver.on("loggerLevelSet", goodHandler);
+            // It should not throw
+            responseGiver.setLoggerLevel("none");
         });
     });
 });
