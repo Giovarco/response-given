@@ -2,9 +2,9 @@
   "name": "response-giver",
   "version": "1.0.0",
   "description": "A module that, given an error object, returns a response message Edit",
-  "main": "src/index.js",
+  "main": "js-src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha js-src/test"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
   "homepage": "https://github.com/Giovarco/response-given#readme",
   "dependencies": {
     "@types/winston": "^2.3.5",
-    "typescript.events": "^6.0.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {

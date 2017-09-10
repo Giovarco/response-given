@@ -1,6 +1,6 @@
 // Imports and globals
-import {Event} from "typescript.events";
-let eventEmitter = new Event();
+import events = require('events');
+const eventEmitter = new events.EventEmitter();
 
 import * as winston from 'winston';
 const logger = new (winston.Logger)({
@@ -10,16 +10,6 @@ const logger = new (winston.Logger)({
   ]
 });
 logger.level = 'error';
-
-export let _unitTesting : object = {
-  setDictionary : setDictionary,
-  getMessage : getMessage,
-  setLoggerLevel : setLoggerLevel,
-  isEmpty : isEmpty,
-  emitError : emitError,
-  isDictionaryDefined : isDictionaryDefined,
-  isInArray : isInArray
-};
 
 // Internal state
 let dictionary : object = undefined;
@@ -33,6 +23,7 @@ export function setDictionary(_dictionary : object) : void {
   // Validate the input
   if(!isEmpty(_dictionary)) {
     dictionary = _dictionary;
+    emitEvent("dictionarySet");
     logger.verbose("Dictionary set correctly");
   } else {
     emitError("The input dictionary cannot be an empty JSON");
@@ -41,8 +32,8 @@ export function setDictionary(_dictionary : object) : void {
 
 export function getMessage(error : string) : any {
 
-    // Log
-    logger.debug("Looking for the value of '"+error+"'");
+  // Log
+  logger.debug("Looking for the value of '"+error+"'");
 
   // Check if the dictionary is set
   if(isDictionaryDefined()) {
@@ -51,16 +42,17 @@ export function getMessage(error : string) : any {
     for (let key in dictionary) {
       if(key === error) {
         logger.verbose("The value of '"+key+"' is '"+JSON.stringify(dictionary[key], null, 2)+"'");
+        emitEvent("correspondenceFound");
         return dictionary[key];
       }
     }
   
     // Emit an error if the key is not found
-    emitError("There is no key on the dictionary with the following error: "+error);
+    emitError("There is no key on the dictionary with the following name: "+error);
     return null;
 
   } else {
-    emitError("The dictionary is not set");    
+    emitError("The dictionary cannot be empty");
   }
 
 
@@ -72,13 +64,27 @@ export function setLoggerLevel(level : string) : void {
   const levels : string[] = ["none", "error", "warn", "info", "verbose", "debug", "silly"];
   if(isInArray(level, levels)) {
     logger.level = level;
+    emitEvent("loggerLevelSet");
   } else {
     emitError("Invalid level. It has to be one of these values: "+levels+";");
   }
 
 }
 
+export function on(event : string, handler : any) {
+  eventEmitter.on(event, handler);
+}
+
+export function removeListener(event : string, handler : any) {
+  eventEmitter.removeListener(event, handler);
+}
+
 // Private functions
+function emitEvent(event : string) : void {
+  //console.log("emitEvent -> "+event);
+  eventEmitter.emit(event);
+}
+
 function isEmpty(obj : object) : boolean {
 
     for (let key in obj) {
@@ -91,9 +97,9 @@ function isEmpty(obj : object) : boolean {
 
 }
 
-function emitError(error : string) : void {
-  eventEmitter.emit("error", new Error(error));
-  logger.error(error);
+function emitError(errorMessage : string) : void {
+  eventEmitter.emit("error", new Error(errorMessage));
+  logger.error(errorMessage);
 }
 
 function isDictionaryDefined() : boolean {

@@ -8,6 +8,8 @@
         "outDir" : "js-src",
         "rootDir" : "ts-src",
         "declaration": true,
-        "allowJs": false
+        "allowJs": false,
+        "lib": [ "es2015" ],
+        "typeRoots": [ "node_modules/@types" ]
     }
 }
