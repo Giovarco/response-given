@@ -1,7 +1,7 @@
 {
   "name": "response-giver",
   "version": "1.0.0",
-  "description": "A module that, given an error object, returns a response message Edit",
+  "description": "A module that, given an error string, returns a response message",
   "main": "js-src/index.js",
   "types": "js-src/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Giovarco/response-given.git"
+    "url": "git+https://github.com/Giovarco/response-giver"
   },
   "keywords": [
     "json",
@@ -17,12 +17,12 @@
     "message",
     "error"
   ],
-  "author": "Mario Mignemi <mario.mignemi@studium.unict.it> (https://www.mariomignemi.com/)",
+  "author": "Mario Mignemi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Giovarco/response-given/issues"
+    "url": "https://github.com/Giovarco/response-giver/issues"
   },
-  "homepage": "https://github.com/Giovarco/response-given#readme",
+  "homepage": "https://github.com/Giovarco/response-giver#readme",
   "dependencies": {
     "@types/winston": "^2.3.5",
     "winston": "^2.3.1"
