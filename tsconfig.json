@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "emitDecoratorMetadata" : true,
+        "experimentalDecorators" : true,
+        "module" : "commonjs",
+        "target" : "ES5",
+        "watch" : true,
+        "outDir" : "js-src",
+        "rootDir" : "ts-src",
+        "declaration": true,
+        "allowJs": false,
+        "lib": [ "es2015" ]
+    }
+}
