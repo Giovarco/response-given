@@ -9,8 +9,6 @@
         "rootDir" : "ts-src",
         "declaration": true,
         "allowJs": false,
-        "lib": [ "es2015" ],
-        "main" : "js-src/index.js",
-        "typings" : "js-src/index"
+        "lib": [ "es2015" ]
     }
 }
